@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<style>
+			*{padding: 0;margin: 0;}
+			#box{height: 200px;width:300px ;position: relative;border: 1px solid black;background: white;overflow: hidden;left:100px;top:100px;border-radius:5px;}
+			img{height: 180px;width: 280px;border: 10px solid #ffc;}
+			#ceng{height:180px;width:280px;position: absolute;top: 200px;left: 0px;background: rgba(0,0,0,0.5);}
+			a:hover{color:orangered;}
+		</style>
+	</head>
+	<body>
+		<div id="box">
+			<img src="img/1.jpg"/>
+			<div id="ceng">
+				
+				<a href="http://www.baidu.com">一点你就输</a>
+			</div>
+		</div>
+	</body>
+</html>
+<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+<script>
+
+	function leftEnter(){
+		$("#ceng").css({left:"-300px",top:"10px"});
+		$("#ceng").animate({left:"10px",top:"10px"},500)		
+	}
+	function rightEnter(){
+		$("#ceng").css({left:"300px",top:"10px"});
+		$("#ceng").animate({left:"10px",top:"10px"},500)
+	}
+	function topEnter(){
+		$("#ceng").css({left:"10px",top:"-200px"});
+		$("#ceng").animate({left:"10px",top:"10px"},500)
+	}
+	function bottomEnter(){
+		$("#ceng").css({left:"10px",top:"200px"});
+		$("#ceng").animate({left:"10px",top:"10px"},500)
+	}
+	
+	
+	function leftLeave(){
+		$("#ceng").css({left:"10px",top:"10px"});
+		$("#ceng").animate({left:"-300px",top:"10px"},500)		
+	}
+	function rightLeave(){
+		$("#ceng").css({left:"10px",top:"10px"});
+		$("#ceng").animate({left:"300px",top:"10px"},500)		
+	}
+	function topLeave(){
+		$("#ceng").css({left:"10px",top:"10px"});
+		$("#ceng").animate({left:"10px",top:"-200px"},500)		
+	}
+	function bottomLeave(){
+		$("#ceng").css({left:"10px",top:"10px"});
+		$("#ceng").animate({left:"10px",top:"200px"},500)		
+	}
+	
+	
+let direction;
+$(function(){
+	$("#box").mouseenter(function(){
+		switch(direction){
+			case "左":leftEnter();break;
+			case "右":rightEnter();break;
+			case "上":topEnter();break;
+			case "下":bottomEnter();break;
+			default:break;
+		}
+	})
+	$("#box").mouseleave(function(){
+		switch(direction){
+			case "左":leftLeave();break;
+			case "右":rightLeave();break;
+			case "上":topLeave();break;
+			case "下":bottomLeave();break;
+			default:break;
+		}
+	})
+		//判断方向
+	$("#box").mousemove(function(event){
+		let e=event || window.event;
+		let mouseLeft=e.offsetX;
+		let mouseTop=e.offsetY;
+		//边界判断
+		let leftDistance=Math.abs(mouseLeft);
+		let rightDistance=Math.abs($("#box").outerWidth()-mouseLeft);
+		let topDistance=Math.abs(mouseTop);
+		let bottomDistance=Math.abs($("#box").outerHeight()-mouseTop);
+		//console.log(leftDistance+";"+rightDistance+";"+topDistance+";"+bottomDistance+";")
+		direction=getMinDistance([leftDistance,rightDistance,topDistance,bottomDistance])
+		console.log(direction);
+	})
+})
+	
+	function getMinDistance(obj){
+		directions=["左","右","上","下"];
+		let MinIndex=0;
+		for(let i=0;i<obj.length;i++){
+			if(obj[i]<obj[MinIndex]){
+				MinIndex=i;
+			}
+		}
+		return directions[MinIndex];
+	}
+	
+	
+	
+	
+	
+	
+</script>
